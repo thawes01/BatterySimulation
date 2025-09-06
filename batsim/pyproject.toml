@@ -1,10 +1,10 @@
 [project]
 name = "batsim"
 version = "0.1.0"
-description = "Add your description here"
+description = "A package to support simulating battery dispatch within simplified electricity markets"
 readme = "README.md"
 authors = [
-    { name = "thawes01", email = "230639296+thawes01@users.noreply.github.com" }
+    { name = "Thomas Hawes", email = "230639296+thawes01@users.noreply.github.com" }
 ]
 requires-python = ">=3.13"
 dependencies = []
