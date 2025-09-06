@@ -1,0 +1,35 @@
+[project]
+name = "batsim"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "thawes01", email = "230639296+thawes01@users.noreply.github.com" }
+]
+requires-python = ">=3.13"
+dependencies = []
+
+[build-system]
+requires = ["uv_build>=0.8.15,<0.9.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "pyright>=1.1.405",
+    "pytest>=8.4.2",
+    "ruff>=0.12.12",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+
+[tool.ruff.lint]
+extend-select = [
+    "I",  # Sort imports consistently with isort
+    "E501"  # Line too long
+]
+
+[tool.pyright]
+typeCheckingMode = "standard"
+pythonVersion = "3.13"

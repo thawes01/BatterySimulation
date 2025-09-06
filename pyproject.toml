@@ -1,0 +1,38 @@
+[project]
+name = "batterysimulation"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "batsim",
+]
+
+[dependency-groups]
+dev = [
+    "pyright>=1.1.405",
+    "pytest>=8.4.2",
+    "ruff>=0.12.12",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py313"
+
+[tool.ruff.lint]
+extend-select = [
+    "I",  # Sort imports consistently with isort
+    "E501"  # Line too long
+]
+
+[tool.pyright]
+typeCheckingMode = "standard"
+pythonVersion = "3.13"
+
+[tool.uv.workspace]
+members = [
+    "batsim",
+]
+
+[tool.uv.sources]
+batsim = { workspace = true }
