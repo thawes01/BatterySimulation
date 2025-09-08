@@ -29,9 +29,9 @@ class Operator:
     ) -> dict[str, Dispatch]:
         return {
             market1.id: Dispatch(
-                timepoint=Timepoint(), market_id=market1.id, power=0, timespan_mins=30
+                timepoint=timepoint, market_id=market1.id, power=0, timespan_mins=30
             ),
-            market1.id: Dispatch(
-                timepoint=Timepoint(), market_id=market1.id, power=0, timespan_mins=60
+            market2.id: Dispatch(
+                timepoint=timepoint, market_id=market2.id, power=0, timespan_mins=60
             ),
         }
