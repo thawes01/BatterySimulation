@@ -35,23 +35,3 @@ class Operator:
                 timepoint=Timepoint(), market_id=market1.id, power=0, timespan_mins=60
             ),
         }
-
-
-def run_simulation():
-    market1 = Market("market1", price_interval=30)
-    market2 = Market("market2", price_interval=60)
-
-    battery = Battery()
-
-    operator = Operator()
-
-    n_timesteps = 10
-    # simulation_interval = 30  # mins
-    timepoints = [Timepoint() for _ in range(n_timesteps)]
-    dispatches = []
-    for timepoint in timepoints:
-        market_dispatches = operator.dispatch(timepoint, battery, market1, market2)
-        battery.update(market_dispatches)
-        dispatches.append(market_dispatches)
-
-    return dispatches
