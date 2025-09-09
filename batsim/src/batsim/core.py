@@ -16,27 +16,29 @@ class Market:
         self.price_interval = price_interval
 
 
-class MarketDispatch:
+class MarketCommitment:
     def __init__(self, market_id: str, discharge_power: float, price: float):
         self.market_id = market_id
         self.discharge_power = discharge_power
         self.price = price
 
 
-class Dispatch:
-    def __init__(self, timepoint: Timepoint, market_dispatches: list[MarketDispatch]):
+class Commitment:
+    def __init__(
+        self, timepoint: Timepoint, market_commitments: list[MarketCommitment]
+    ):
         self._timepoint = timepoint
-        self._market_dispatches = {m.market_id: m for m in market_dispatches}
+        self._market_commitments = {m.market_id: m for m in market_commitments}
 
     @property
     def timepoint(self) -> Timepoint:
         return self._timepoint
 
     def discharge(self, market_id: str) -> float:
-        return self._market_dispatches[market_id].discharge_power
+        return self._market_commitments[market_id].discharge_power
 
     def price(self, market_id: str) -> float:
-        return self._market_dispatches[market_id].price
+        return self._market_commitments[market_id].price
 
     @property
     def revenue(self) -> float:
@@ -44,22 +46,22 @@ class Dispatch:
 
 
 class Battery:
-    def update(self, dispatch: Dispatch):
+    def execute(self, commitment: Commitment):
         pass
 
 
 class Operator:
-    def dispatch(
+    def determine_commitment(
         self, timepoint: Timepoint, battery: Battery, market1: Market, market2: Market
-    ) -> Dispatch:
-        market_dispatches = [
-            MarketDispatch(market1.id, 0.0, 0.0),
-            MarketDispatch(market2.id, 0.0, 0.0),
+    ) -> Commitment:
+        market_commitments = [
+            MarketCommitment(market1.id, 0.0, 0.0),
+            MarketCommitment(market2.id, 0.0, 0.0),
         ]
-        return Dispatch(timepoint, market_dispatches)
+        return Commitment(timepoint, market_commitments)
 
 
-def write_dispatches(dispatches: Iterable[Dispatch], path: str):
+def write_commitments(commitments: Iterable[Commitment], path: str):
     with open(path, newline="", mode="w") as csvfile:
         fieldnames = [
             "period_start",
@@ -71,14 +73,14 @@ def write_dispatches(dispatches: Iterable[Dispatch], path: str):
         ]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
         writer.writeheader()
-        for dispatch in dispatches:
+        for commitment in commitments:
             writer.writerow(
                 {
-                    fieldnames[0]: dispatch.timepoint,
-                    fieldnames[1]: dispatch.price("market1"),
-                    fieldnames[2]: dispatch.discharge("market1"),
-                    fieldnames[3]: dispatch.price("market2"),
-                    fieldnames[4]: dispatch.discharge("market2"),
-                    fieldnames[5]: dispatch.revenue,
+                    fieldnames[0]: commitment.timepoint,
+                    fieldnames[1]: commitment.price("market1"),
+                    fieldnames[2]: commitment.discharge("market1"),
+                    fieldnames[3]: commitment.price("market2"),
+                    fieldnames[4]: commitment.discharge("market2"),
+                    fieldnames[5]: commitment.revenue,
                 }
             )
