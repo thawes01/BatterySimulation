@@ -7,9 +7,8 @@ class Timepoint:
 
 
 class Market:
-    def __init__(self, id: str, price_interval: int):
+    def __init__(self, id: str):
         self.id = id
-        self.price_interval = price_interval
 
 
 class MarketCommitment:
@@ -42,16 +41,22 @@ class Commitment:
 
 
 class Battery:
+    def __init__(self, capacity: float):
+        self._capacity = capacity
+
+    @property
+    def capacity(self) -> float:
+        return self._capacity
+
     def execute(self, commitment: Commitment):
         pass
 
 
 class Operator:
     def determine_commitment(
-        self, timepoint: Timepoint, battery: Battery, market1: Market, market2: Market
+        self, timepoint: Timepoint, battery: Battery, markets: list[Market]
     ) -> Commitment:
         market_commitments = [
-            MarketCommitment(market1.id, 0.0, 0.0),
-            MarketCommitment(market2.id, 0.0, 0.0),
+            MarketCommitment(market.id, battery.capacity, 0.0) for market in markets
         ]
         return Commitment(timepoint, market_commitments)
