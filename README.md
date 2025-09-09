@@ -2,6 +2,58 @@
 
 Simulate battery dispatch within simplified electricity markets.
 
+## Contents
+
+- [Installing and running an example simulation](#installing-and-running-an-example-simulation)
+- [Approach taken](#approach-taken)
+  - [Known limitations](#known-limitations)
+
+## Installing and running an example simulation
+
+The code in this repo requires Python 3.13. After cloning this repo, change
+into the `example` directory within your local clone and then follow the
+instructions for one of the options below:
+
+### Option 1: using `uv`
+
+Simply sync to create a new virtual environmet and then run the `simulate.py`
+script within via `uv run`:
+
+```
+uv sync
+uv run python simulate.py
+```
+
+This will create an output file, `simulation.csv`, in the same folder.
+
+### Option 2: using `venv` and `pip`
+
+First create a new virtual environment with your Python 3.13, then 
+`pip install` the requirements from the `requirements.txt` file into the
+virtual environment. Finally, run the `simulate.py` script, which will
+create an output file, `simulation.csv`, in the same folder.
+
+Commands for your OS are below:
+
+#### Unix
+
+```sh
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install -r requirements.txt
+python simulate.csv
+```
+
+#### Windows
+  
+```
+py -m venv .venv
+.venv\Scripts\activate
+py -m pip install -r requirements.txt
+py simulate.csv
+```
+
+
 ## Approach taken
 
 My approach was to try and create a package that could be used to model
@@ -30,6 +82,8 @@ start fleshing out the logic for the main `determine_commitment` method of
   I didn't get to incorporating it with the package. My approach was to design
   the main package API first, then worry about how to get the data into it
   later.
+* The market commitments logic is only a stub implementation and does not
+  define a valid market commitment (let alone an optimal one).
 * The csv file output by the `example/simulate.py` script just holds stub values.
 * I am aware that there are awkward aspects to the market timeseries data that
   would need to be addressed: specifically, how to deal with clock changes and
