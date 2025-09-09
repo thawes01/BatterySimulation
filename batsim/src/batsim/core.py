@@ -56,7 +56,7 @@ class Battery:
     def charge(self) -> float:
         return self._charge
 
-    def execute(self, commitment: Commitment):
+    def update(self, commitment: Commitment):
         pass
 
 
