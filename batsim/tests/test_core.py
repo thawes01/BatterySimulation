@@ -40,9 +40,7 @@ class TestOperator:
         market = Market("1")
         operator = Operator()
 
-        # TODO: setting attribute directly, come back to this
         operator.commit_to_market(market.id)
-
         commitment = operator.determine_commitment(Timepoint(), battery, [market])
 
         assert not commitment.includes_market(market.id)
