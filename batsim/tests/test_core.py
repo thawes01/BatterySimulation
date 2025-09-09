@@ -30,3 +30,19 @@ class TestOperator:
         commitment = operator.determine_commitment(Timepoint(), battery, [market])
 
         assert commitment.discharge(market.id) == battery.charge
+
+    def test_no_commitment_if_existing_commitment_single_market(self):
+        """Given a battery and a single market, if the operator has an outstanding
+        commitment and the battery has positive charge, then when the operator
+        determines its next commitment no action is committed.
+        """
+        battery = Battery(capacity=12)
+        market = Market("1")
+        operator = Operator()
+
+        # TODO: setting attribute directly, come back to this
+        operator.commit_to_market(market.id)
+
+        commitment = operator.determine_commitment(Timepoint(), battery, [market])
+
+        assert not commitment.includes_market(market.id)

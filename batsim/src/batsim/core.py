@@ -12,9 +12,9 @@ class Market:
 
 
 class MarketCommitment:
-    def __init__(self, market_id: str, discharge_power: float, price: float):
+    def __init__(self, market_id: str, discharge: float, price: float):
         self.market_id = market_id
-        self.discharge_power = discharge_power
+        self.discharge = discharge
         self.price = price
 
 
@@ -29,8 +29,11 @@ class Commitment:
     def timepoint(self) -> Timepoint:
         return self._timepoint
 
+    def includes_market(self, market_id: str) -> bool:
+        return market_id in self._market_commitments
+
     def discharge(self, market_id: str) -> float:
-        return self._market_commitments[market_id].discharge_power
+        return self._market_commitments[market_id].discharge
 
     def price(self, market_id: str) -> float:
         return self._market_commitments[market_id].price
@@ -58,10 +61,18 @@ class Battery:
 
 
 class Operator:
+    def __init__(self):
+        self._markets_committed_to = set()
+
+    def commit_to_market(self, market_id: str) -> None:
+        self._markets_committed_to.add(market_id)
+
     def determine_commitment(
         self, timepoint: Timepoint, battery: Battery, markets: list[Market]
     ) -> Commitment:
         market_commitments = [
-            MarketCommitment(market.id, battery.charge, 0.0) for market in markets
+            MarketCommitment(market.id, battery.charge, 0.0)
+            for market in markets
+            if market.id not in self._markets_committed_to
         ]
         return Commitment(timepoint, market_commitments)
