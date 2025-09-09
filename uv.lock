@@ -191,6 +191,7 @@ dependencies = [
 dev = [
     { name = "pyright" },
     { name = "pytest" },
+    { name = "pytest-mock" },
     { name = "ruff" },
 ]
 
@@ -205,6 +206,7 @@ requires-dist = [
 dev = [
     { name = "pyright", specifier = ">=1.1.405" },
     { name = "pytest", specifier = ">=8.4.2" },
+    { name = "pytest-mock", specifier = ">=3.15.0" },
     { name = "ruff", specifier = ">=0.12.12" },
 ]
 
