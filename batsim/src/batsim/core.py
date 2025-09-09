@@ -43,10 +43,15 @@ class Commitment:
 class Battery:
     def __init__(self, capacity: float):
         self._capacity = capacity
+        self._charge = capacity
 
     @property
     def capacity(self) -> float:
         return self._capacity
+
+    @property
+    def charge(self) -> float:
+        return self._charge
 
     def execute(self, commitment: Commitment):
         pass
@@ -57,6 +62,6 @@ class Operator:
         self, timepoint: Timepoint, battery: Battery, markets: list[Market]
     ) -> Commitment:
         market_commitments = [
-            MarketCommitment(market.id, battery.capacity, 0.0) for market in markets
+            MarketCommitment(market.id, battery.charge, 0.0) for market in markets
         ]
         return Commitment(timepoint, market_commitments)
